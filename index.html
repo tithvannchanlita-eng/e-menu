@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>E-Menu</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="restaurant-header">
+        <p class="label">Digital Menu</p>
+        <h1 id="restaurant-name">E-Menu</h1>
+        <p id="restaurant-tagline" class="tagline"></p>
+      </header>
+
+      <section id="menu-list" class="menu-grid" aria-live="polite"></section>
+    </main>
+
+    <dialog id="item-dialog" class="item-dialog">
+      <article>
+        <img id="dialog-image" alt="" />
+        <h2 id="dialog-name"></h2>
+        <p id="dialog-price" class="dialog-price"></p>
+        <p id="dialog-rating" class="dialog-rating"></p>
+        <p id="dialog-description"></p>
+        <button id="close-dialog" type="button">Close</button>
+      </article>
+    </dialog>
+
+    <template id="menu-item-template">
+      <article class="menu-card" role="button" tabindex="0">
+        <img class="menu-image" alt="" loading="lazy" />
+        <div class="menu-content">
+          <h2 class="menu-name"></h2>
+          <p class="menu-price"></p>
+          <p class="menu-rating"></p>
+        </div>
+      </article>
+    </template>
+
+    <script src="app.js" type="module"></script>
+  </body>
+</html>
