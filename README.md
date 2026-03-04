@@ -1,24 +1,33 @@
 # E-Menu (Digital Restaurant Menu)
 
-A mobile-friendly web menu that opens directly from a QR code URL like:
+A modern, mobile-first digital restaurant menu built with **Vue 3** and **Tailwind CSS**.
+
+Customers scan a QR code and open a URL like:
 
 `https://e-menu.web.app/r/{restaurantId}`
 
 ## Features
 
-- QR-code-ready route format (`/r/:restaurantId`)
-- Menu cards with image, item name, price, and rating
-- Mobile-first scrolling layout
-- Tap/click on an item to open details modal
+- QR-route friendly pattern (`/r/:restaurantId`)
+- Modern card UI for menu items (image, name, price, rating)
+- Smooth mobile browsing and sticky restaurant header
+- Item detail modal on tap
+- Firebase Hosting rewrite for SPA routes
 
-## Local run
+## Tech Stack
+
+- Vue 3 (CDN build)
+- Tailwind CSS (CDN)
+- Firebase Hosting (for deployment)
+
+## Local Run
 
 ```bash
 python3 -m http.server 4173
 ```
 
-Then open `http://localhost:4173/` (defaults to demo restaurant).
+Open `http://localhost:4173/`.
 
 ## Firebase Hosting
 
-`firebase.json` includes a rewrite so `/r/**` loads `index.html` for client-side route handling.
+`firebase.json` rewrites `/r/**` to `/index.html` so direct QR route visits work.
