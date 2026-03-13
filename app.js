@@ -78,7 +78,15 @@ createApp({
       restaurant: restaurants[restaurantId] ?? restaurants.demo,
       activeItem: null,
       activeCategory: 'ទាំងអស់',
-      cartCount: 0,
+      cart: {},
+      showCheckout: false,
+      checkoutForm: {
+        name: '',
+        phone: '',
+        address: '',
+        note: '',
+      },
+      checkoutSuccess: '',
     };
   },
   computed: {
@@ -88,6 +96,27 @@ createApp({
     filteredItems() {
       if (this.activeCategory === 'ទាំងអស់') return this.restaurant.items;
       return this.restaurant.items.filter((item) => item.category === this.activeCategory);
+    },
+    cartItems() {
+      return this.restaurant.items
+        .filter((item) => this.cart[item.id])
+        .map((item) => ({
+          ...item,
+          quantity: this.cart[item.id],
+          lineTotal: this.cart[item.id] * item.price,
+        }));
+    },
+    cartCount() {
+      return Object.values(this.cart).reduce((sum, qty) => sum + qty, 0);
+    },
+    cartSubtotal() {
+      return this.cartItems.reduce((sum, item) => sum + item.lineTotal, 0);
+    },
+    shippingFee() {
+      return this.cartSubtotal >= 40 || this.cartSubtotal === 0 ? 0 : 2.5;
+    },
+    grandTotal() {
+      return this.cartSubtotal + this.shippingFee;
     },
   },
   methods: {
@@ -102,8 +131,35 @@ createApp({
     },
     addToCart(item) {
       if (item.soldOut) return;
-      this.cartCount += 1;
+      this.cart[item.id] = (this.cart[item.id] ?? 0) + 1;
+      this.checkoutSuccess = '';
       this.activeItem = null;
+    },
+    changeQuantity(itemId, diff) {
+      const next = (this.cart[itemId] ?? 0) + diff;
+      if (next <= 0) {
+        delete this.cart[itemId];
+        return;
+      }
+      this.cart[itemId] = next;
+    },
+    openCheckout() {
+      if (this.cartCount === 0) return;
+      this.showCheckout = true;
+    },
+    submitCheckout() {
+      if (!this.checkoutForm.name || !this.checkoutForm.phone || !this.checkoutForm.address) return;
+
+      const orderCode = `PP-${Math.floor(10000 + Math.random() * 90000)}`;
+      this.checkoutSuccess = `បានបញ្ជាទិញជោគជ័យ! លេខកម្ម៉ង់ ${orderCode}`;
+      this.cart = {};
+      this.showCheckout = false;
+      this.checkoutForm = {
+        name: '',
+        phone: '',
+        address: '',
+        note: '',
+      };
     },
   },
 }).mount('#app');
