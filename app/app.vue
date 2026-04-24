@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 useHead({
   meta: [
     { name: 'viewport', content: 'width=device-width, initial-scale=1' }
@@ -11,67 +11,140 @@ useHead({
   }
 })
 
-const title = 'Nuxt Starter Template'
-const description = 'A production-ready starter template powered by Nuxt UI. Build beautiful, accessible, and performant applications in minutes, not hours.'
+const year = new Date().getFullYear()
+const route = useRoute()
+const { currentUser, logout } = useMenuStore()
+
+const title = 'Harvest Table E-Menu'
+const description = 'A mobile-first QR menu with an admin dashboard for categories, products, image uploads, and availability management.'
 
 useSeoMeta({
   title,
   description,
   ogTitle: title,
   ogDescription: description,
-  ogImage: 'https://ui.nuxt.com/assets/templates/nuxt/starter-light.png',
+  ogImage: '/favicon.ico',
   twitterCard: 'summary_large_image'
 })
+
+async function handleLogout() {
+  logout()
+  await navigateTo('/admin')
+}
+
+function linkClasses(path: string) {
+  const isActive = route.path === path || route.path.startsWith(`${path}/`)
+
+  return [
+    'rounded-full px-4 py-2 text-sm font-semibold transition',
+    isActive
+      ? 'bg-[var(--color-ink)] text-white'
+      : 'text-[color:var(--color-ink)] hover:bg-white/70'
+  ]
+}
 </script>
 
 <template>
   <UApp>
-    <UHeader>
-      <template #left>
-        <NuxtLink to="/">
-          <AppLogo class="w-auto h-6 shrink-0" />
-        </NuxtLink>
+    <div class="page-shell min-h-screen">
+      <div class="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+        <div class="absolute left-[-8rem] top-[-10rem] h-64 w-64 rounded-full bg-[color:var(--color-tangerine-soft)] blur-3xl" />
+        <div class="absolute right-[-5rem] top-24 h-72 w-72 rounded-full bg-[color:var(--color-sky-soft)] blur-3xl" />
+        <div class="absolute bottom-[-10rem] left-1/3 h-80 w-80 rounded-full bg-[color:var(--color-gold-soft)] blur-3xl" />
+      </div>
 
-        <TemplateMenu />
-      </template>
+      <header class="sticky top-0 z-40 border-b border-black/10 bg-[color:var(--color-cream)]/85 backdrop-blur-xl">
+        <div class="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between">
+          <div class="flex items-center justify-between gap-4">
+            <NuxtLink
+              to="/menu"
+              class="flex items-center gap-3"
+            >
+              <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-[var(--color-ink)] text-sm font-black uppercase tracking-[0.28em] text-white">
+                HT
+              </div>
 
-      <template #right>
-        <UColorModeButton />
+              <div>
+                <p class="font-display text-lg font-black uppercase tracking-[0.18em] text-[color:var(--color-ink)]">
+                  Harvest Table
+                </p>
+                <p class="text-xs uppercase tracking-[0.22em] text-black/55">
+                  QR Menu + Admin Studio
+                </p>
+              </div>
+            </NuxtLink>
 
-        <UButton
-          to="https://github.com/nuxt-ui-templates/starter"
-          target="_blank"
-          icon="i-simple-icons-github"
-          aria-label="GitHub"
-          color="neutral"
-          variant="ghost"
-        />
-      </template>
-    </UHeader>
+            <div
+              v-if="currentUser"
+              class="rounded-full border border-black/10 bg-white/80 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-black/65 lg:hidden"
+            >
+              {{ currentUser.email }}
+            </div>
+          </div>
 
-    <UMain>
-      <NuxtPage />
-    </UMain>
+          <div class="flex flex-col gap-3 lg:flex-row lg:items-center">
+            <nav class="flex flex-wrap items-center gap-2">
+              <NuxtLink
+                :class="linkClasses('/menu')"
+                to="/menu"
+              >
+                Menu
+              </NuxtLink>
+              <NuxtLink
+                :class="linkClasses('/admin')"
+                to="/admin"
+              >
+                Admin
+              </NuxtLink>
+              <NuxtLink
+                :class="linkClasses('/dashboard')"
+                to="/dashboard"
+              >
+                Dashboard
+              </NuxtLink>
+            </nav>
 
-    <USeparator icon="i-simple-icons-nuxtdotjs" />
+            <div class="flex items-center gap-2 lg:justify-end">
+              <div
+                v-if="currentUser"
+                class="hidden rounded-full border border-black/10 bg-white/80 px-3 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-black/65 sm:block"
+              >
+                {{ currentUser.email }}
+              </div>
 
-    <UFooter>
-      <template #left>
-        <p class="text-sm text-muted">
-          Built with Nuxt UI • © {{ new Date().getFullYear() }}
-        </p>
-      </template>
+              <button
+                v-if="currentUser"
+                type="button"
+                class="rounded-full bg-[var(--color-ink)] px-4 py-2 text-sm font-semibold text-white transition hover:bg-black"
+                @click="handleLogout"
+              >
+                Log out
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
 
-      <template #right>
-        <UButton
-          to="https://github.com/nuxt-ui-templates/starter"
-          target="_blank"
-          icon="i-simple-icons-github"
-          aria-label="GitHub"
-          color="neutral"
-          variant="ghost"
-        />
-      </template>
-    </UFooter>
+      <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:py-10">
+        <NuxtPage />
+      </main>
+
+      <footer class="mx-auto max-w-7xl px-4 pb-10 pt-2 sm:px-6">
+        <div class="panel flex flex-col gap-4 px-5 py-5 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p class="font-display text-lg font-black uppercase tracking-[0.18em] text-[color:var(--color-ink)]">
+              Harvest Table
+            </p>
+            <p class="text-sm text-black/65">
+              Built for QR browsing on the customer side and fast menu editing on the admin side.
+            </p>
+          </div>
+
+          <p class="text-sm text-black/60">
+            Local MVP ready for Firebase handoff • © {{ year }}
+          </p>
+        </div>
+      </footer>
+    </div>
   </UApp>
 </template>

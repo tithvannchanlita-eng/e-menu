@@ -2,17 +2,136 @@
 @import "@nuxt/ui";
 
 @theme static {
-  --font-sans: 'Public Sans', sans-serif;
+  --font-sans: 'Avenir Next', 'Nunito Sans', 'Segoe UI', sans-serif;
+  --font-display: 'Trebuchet MS', 'Avenir Next Condensed', sans-serif;
+}
 
-  --color-green-50: #EFFDF5;
-  --color-green-100: #D9FBE8;
-  --color-green-200: #B3F5D1;
-  --color-green-300: #75EDAE;
-  --color-green-400: #00DC82;
-  --color-green-500: #00C16A;
-  --color-green-600: #00A155;
-  --color-green-700: #007F45;
-  --color-green-800: #016538;
-  --color-green-900: #0A5331;
-  --color-green-950: #052E16;
+:root {
+  --color-cream: #fff8ef;
+  --color-ink: #1f1a15;
+  --color-ink-soft: #5b5146;
+  --color-tangerine: #e66b3c;
+  --color-tangerine-soft: rgba(230, 107, 60, 0.28);
+  --color-gold: #f2b24b;
+  --color-gold-soft: rgba(242, 178, 75, 0.22);
+  --color-sky: #85b9cf;
+  --color-sky-soft: rgba(133, 185, 207, 0.26);
+  --color-panel: rgba(255, 255, 255, 0.74);
+  --shadow-card: 0 20px 55px rgba(56, 40, 20, 0.09);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background:
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.9), transparent 30%),
+    linear-gradient(180deg, #fff9f0 0%, #fff3de 100%);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.page-shell {
+  isolation: isolate;
+}
+
+.panel {
+  border: 1px solid rgba(31, 26, 21, 0.08);
+  background: var(--color-panel);
+  backdrop-filter: blur(18px);
+  box-shadow: var(--shadow-card);
+  border-radius: 1.75rem;
+}
+
+.dash-grid {
+  background-image:
+    linear-gradient(rgba(31, 26, 21, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(31, 26, 21, 0.05) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+.field-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(31, 26, 21, 0.7);
+}
+
+.field-input,
+.field-textarea,
+.field-select {
+  width: 100%;
+  border-radius: 1rem;
+  border: 1px solid rgba(31, 26, 21, 0.12);
+  background: rgba(255, 255, 255, 0.86);
+  color: var(--color-ink);
+  padding: 0.9rem 1rem;
+  transition:
+    border-color 120ms ease,
+    box-shadow 120ms ease,
+    transform 120ms ease;
+}
+
+.field-textarea {
+  min-height: 7.5rem;
+  resize: vertical;
+}
+
+.field-input:focus,
+.field-textarea:focus,
+.field-select:focus {
+  outline: none;
+  border-color: rgba(230, 107, 60, 0.55);
+  box-shadow: 0 0 0 4px rgba(230, 107, 60, 0.12);
+}
+
+.ghost-button {
+  border-radius: 999px;
+  border: 1px solid rgba(31, 26, 21, 0.12);
+  background: rgba(255, 255, 255, 0.82);
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-ink);
+  transition:
+    transform 120ms ease,
+    background 120ms ease,
+    box-shadow 120ms ease;
+}
+
+.ghost-button:hover {
+  transform: translateY(-1px);
+  background: white;
+}
+
+.primary-button {
+  border-radius: 999px;
+  background: var(--color-ink);
+  padding: 0.85rem 1.2rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: white;
+  transition:
+    transform 120ms ease,
+    opacity 120ms ease,
+    box-shadow 120ms ease;
+  box-shadow: 0 12px 30px rgba(31, 26, 21, 0.12);
+}
+
+.primary-button:hover {
+  transform: translateY(-1px);
+}
+
+.primary-button:disabled,
+.ghost-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
 }

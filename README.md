@@ -1,64 +1,53 @@
-# Nuxt Starter Template
+# Harvest Table E-Menu
 
-[![Nuxt UI](https://img.shields.io/badge/Made%20with-Nuxt%20UI-00DC82?logo=nuxt&labelColor=020420)](https://ui.nuxt.com)
+QR-based e-menu MVP built with Nuxt and Nuxt UI.
 
-Use this template to get started with [Nuxt UI](https://ui.nuxt.com) quickly.
+## Included in this build
 
-- [Live demo](https://starter-template.nuxt.dev/)
-- [Documentation](https://ui.nuxt.com/docs/getting-started/installation/nuxt)
+- Public `/menu` page for customers
+- Admin `/admin` login page
+- Protected `/dashboard` page
+- Category CRUD
+- Product CRUD
+- Product image upload with preview
+- Availability toggle
+- Local persistence using `localStorage`
+- Firebase-ready `firestore.rules` and `storage.rules`
 
-<a href="https://starter-template.nuxt.dev/" target="_blank">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://ui.nuxt.com/assets/templates/nuxt/starter-dark.png">
-    <source media="(prefers-color-scheme: light)" srcset="https://ui.nuxt.com/assets/templates/nuxt/starter-light.png">
-    <img alt="Nuxt Starter Template" src="https://ui.nuxt.com/assets/templates/nuxt/starter-light.png" width="830" height="466">
-  </picture>
-</a>
+## Demo admin credentials
 
-> The starter template for Vue is on https://github.com/nuxt-ui-templates/starter-vue.
+- Email: `admin@emenu.local`
+- Password: `admin12345`
 
-## Quick Start
-
-```bash [Terminal]
-npm create nuxt@latest -- -t ui
-```
-
-## Deploy your own
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-name=starter&repository-url=https%3A%2F%2Fgithub.com%2Fnuxt-ui-templates%2Fstarter&demo-image=https%3A%2F%2Fui.nuxt.com%2Fassets%2Ftemplates%2Fnuxt%2Fstarter-dark.png&demo-url=https%3A%2F%2Fstarter-template.nuxt.dev%2F&demo-title=Nuxt%20Starter%20Template&demo-description=A%20minimal%20template%20to%20get%20started%20with%20Nuxt%20UI.)
-
-## Setup
-
-Make sure to install the dependencies:
+## Local development
 
 ```bash
 pnpm install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
 pnpm dev
 ```
 
-## Production
-
-Build the application for production:
+## Build
 
 ```bash
 pnpm build
 ```
 
-Locally preview production build:
+## Current data mode
 
-```bash
-pnpm preview
-```
+This MVP is fully functional in local demo mode. Categories, products, and uploaded images persist in the browser via `localStorage`, which makes it easy to keep building UI and flow before connecting live Firebase services.
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+## Firebase handoff notes
 
-## Renovate integration
+When you are ready to replace the demo layer with Firebase:
 
-Install [Renovate GitHub app](https://github.com/apps/renovate/installations/select_target) on your repository and you are good to go.
+1. Add Firebase project credentials to your Nuxt runtime config.
+2. Replace the local persistence inside `app/composables/useMenuStore.ts` with Firestore, Auth, and Storage calls.
+3. Apply the included `firestore.rules` and `storage.rules`.
+4. Deploy with Firebase Hosting after `pnpm build`.
+
+## Suggested routes
+
+- `/` redirects to `/menu`
+- `/menu` customer menu
+- `/admin` admin login
+- `/dashboard` protected admin dashboard
